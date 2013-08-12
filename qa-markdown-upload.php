@@ -71,6 +71,7 @@ class qa_markdown_upload {
             //	Find out some information about the uploaded file and check it's not too large
 
             if (empty($message)) {
+                require_once QA_INCLUDE_DIR.'qa-app-upload.php';
                 require_once QA_INCLUDE_DIR.'qa-app-blobs.php';
 
                 $file=reset($_FILES);

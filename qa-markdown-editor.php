@@ -85,7 +85,7 @@ class qa_markdown_editor
 	// set admin options
 	function admin_form( &$qa_content )
 	{
-        require_once QA_INCLUDE_DIR.'qa-app-blobs.php';
+		require_once QA_INCLUDE_DIR.'qa-app-upload.php';
 
         $saved_msg = null;
 
