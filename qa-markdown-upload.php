@@ -107,19 +107,27 @@ class qa_markdown_upload {
             //	If there have been no errors, looks like we're all set...
 
             if (empty($message)) {
-                require_once QA_INCLUDE_DIR.'qa-db-blobs.php';
 
                 $userid=qa_get_logged_in_userid();
                 $cookieid=isset($userid) ? qa_cookie_get() : qa_cookie_get_create();
-
-                $blobid=qa_db_blob_create(file_get_contents($file['tmp_name']), $extension, @$file['name'], $userid, $cookieid, qa_remote_ip_address());
+		
+		if (qa_opt('markdown_editor_upload_disk')) {
+			require_once QA_INCLUDE_DIR.'qa-app-blobs.php';
+			
+			$blobid=qa_create_blob(file_get_contents($file['tmp_name']), $extension, @$file['name'], $userid, $cookieid, qa_remote_ip_address());
+		}
+		else {
+			require_once QA_INCLUDE_DIR.'qa-db-blobs.php';
+			
+			$blobid=qa_db_blob_create(file_get_contents($file['tmp_name']), $extension, @$file['name'], $userid, $cookieid, qa_remote_ip_address());
+		}
 
                 if (isset($blobid)) {
                     $url=qa_get_blob_url($blobid, true);
                     $success = true;
                 }
                 else
-                    $message='Failed to create object in database - please try again';
+                    $message='Failed to upload file - please try again';
             }
         }
 
