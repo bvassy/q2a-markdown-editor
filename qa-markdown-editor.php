@@ -102,6 +102,7 @@ class qa_markdown_editor
             qa_opt('markdown_editor_upload_images', (int)qa_post_text('markdown_editor_upload_images_field'));
             qa_opt('markdown_editor_upload_all', (int)qa_post_text('markdown_editor_upload_all_field'));
             qa_opt('markdown_editor_upload_max_size', min(qa_get_max_upload_size(), 1048576*(float)qa_post_text('markdown_editor_upload_max_size_field')));
+	    qa_opt('markdown_editor_upload_disk', (int)qa_post_text('markdown_editor_upload_to_disk_field'));
 
             $saved_msg = 'Options saved.';
 		}
@@ -109,6 +110,8 @@ class qa_markdown_editor
         qa_set_display_rules($qa_content, array(
             'markdown_editor_upload_all_display' => 'markdown_editor_upload_images_field',
             'markdown_editor_upload_max_size_display' => 'markdown_editor_upload_images_field',
+	    'markdown_editor_upload_to_disk_display' => 'markdown_editor_upload_images_field',
+	    
         ));
 
 
@@ -161,6 +164,15 @@ class qa_markdown_editor
                     'type' => 'number',
                     'value' => $this->bytes_to_mega_html(qa_opt('markdown_editor_upload_max_size')),
                     'tags' => 'NAME="markdown_editor_upload_max_size_field"',
+                ),
+		
+		array(
+                    'id' => 'markdown_editor_upload_to_disk_display',
+                    'label' => 'Save images to disk instead of database',
+                    'type' => 'checkbox',
+                    'value' => (int)qa_opt('markdown_editor_upload_disk'),
+                    'tags' => 'NAME="markdown_editor_upload_to_disk_field"',
+		    'note' => 'You also have to define "QA_BLOBS_DIRECTORY" in qa-config.php',
                 ),
 
             ),
